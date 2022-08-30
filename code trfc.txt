@@ -1,0 +1,141 @@
+int redA = 10;
+int yellowA = 9;
+int greenA = 8;
+
+int redB = 4;
+int yellowB = 3;
+int greenB = 2;
+
+
+int trig1=A0;
+int echo1=A1;
+int trig2=A2;
+int echo2=A3;
+
+float timeduration1;
+float distance1;
+float timeduration2;
+float distance2;
+
+void laneTwoG(void){
+  //LANE 2 VEHICLES CAN CROSS
+  digitalWrite(redA,HIGH);
+  digitalWrite(yellowA,LOW);
+  digitalWrite(greenA,LOW);
+  
+  digitalWrite(redB,LOW);
+  digitalWrite(yellowB,LOW);
+  digitalWrite(greenB,HIGH);
+  delay(5000);
+}
+void laneOneG(void){
+  //LANE 1 VEHICLES CAN CROSS
+  digitalWrite(redA,LOW);
+  digitalWrite(yellowA,LOW);
+  digitalWrite(greenA,HIGH);
+  
+  digitalWrite(redB,HIGH);
+  digitalWrite(yellowB,LOW);
+  digitalWrite(greenB,LOW);
+  delay(5000);
+}
+
+void setup() {
+pinMode (redA, OUTPUT);
+pinMode (yellowA, OUTPUT);
+pinMode (greenA, OUTPUT);
+
+pinMode (redB, OUTPUT);
+pinMode (yellowB, OUTPUT);
+pinMode (greenB, OUTPUT);
+  
+  pinMode(trig1, OUTPUT);
+  pinMode(echo1, INPUT);
+  
+  pinMode(trig2, OUTPUT);
+  pinMode(echo2, INPUT);
+  
+  Serial.begin(9600);
+}
+
+void loop() {
+  digitalWrite(trig1, LOW);
+  delayMicroseconds(20);
+  digitalWrite(trig1,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig1, LOW);
+  timeduration1 = pulseIn(echo1 , HIGH);
+  distance1=(0.034 * timeduration1/2);
+  int dist1 = int(distance1);
+  
+  Serial.print("Distance1 in cm: ");
+  Serial.println( dist1);
+  
+  digitalWrite(trig2, LOW);
+  delayMicroseconds(20);
+  digitalWrite(trig2,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig2, LOW);
+  timeduration2 = pulseIn(echo2 , HIGH);
+  distance2=(0.034 * timeduration2/2);
+  int dist2 = int(distance2);
+ 
+  Serial.print("Distance2 in cm: ");
+  Serial.println( dist2);
+  
+  
+  if(dist1>300 && dist2<300){
+  	laneTwoG();
+    
+	delay(5000);
+  }
+  else if(dist2>300 && dist1<300){
+    laneOneG();
+    
+    delay(5000);
+  }
+/*digitalWrite(greenA, HIGH);
+digitalWrite(redB, HIGH);
+
+delay(9000);
+  
+digitalWrite(greenA, LOW);
+digitalWrite(redB, LOW);
+
+digitalWrite(yellowA, HIGH);
+digitalWrite(yellowB, HIGH);
+delay(1000);
+  
+digitalWrite(yellowA, LOW);
+digitalWrite(yellowB, LOW);
+
+digitalWrite(redA, HIGH);
+digitalWrite(greenB, HIGH);
+delay(5000);
+
+digitalWrite(greenB, LOW);
+
+
+
+digitalWrite(yellowB, HIGH);
+
+delay(1000);
+
+digitalWrite(yellowB, LOW);
+
+
+
+digitalWrite(redB, HIGH);
+
+delay(5000);
+
+
+digitalWrite(redA, LOW);
+
+digitalWrite(yellowA, HIGH);
+
+delay(1000);
+
+digitalWrite(yellowA, LOW);*/
+
+}
